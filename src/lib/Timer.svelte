@@ -4,7 +4,7 @@
     sec100ToEverything,
   } from "../utils/transforTime";
 
-  export let initialTime: number = 120;
+  export let initialTime: number = 20;
   let running: boolean = false;
 
   //number lets asume number is in minutes
@@ -35,7 +35,11 @@
 </script>
 
 <h2>
-  {timeToShow.hour}:{timeToShow.minutes}:{timeToShow.seconds}
+  {timeToShow.hour >= 10 ? timeToShow.hour : "0"+timeToShow.hour }
+  :
+  {timeToShow.minutes>= 10 ? timeToShow.minutes: "0"+timeToShow.minutes}
+  :
+  {timeToShow.seconds>= 10 ? timeToShow.seconds: "0"+timeToShow.seconds}
 </h2>
 {#if running}
   <button on:click={stopTimer}>stop</button>
