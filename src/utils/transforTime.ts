@@ -2,36 +2,32 @@ type time = {
     hour : number,
     minutes: number,
     seconds: number,
-    sec100 : number
 }
 
 const minutesTo100Seconds = (min : number) : number =>{
+    console.log("total a 100secs = ", min*60*10)
     return min * 60 * 10
 }
 const sec100ToEverything= (sec100 : number) : time=>{
-   let cont = sec100
    let time : time = {
-    hour : 0,
+    hour : 0, 
     minutes: 0,
-    seconds: 0,
-    sec100 : sec100
+    seconds: 0
   }
-  while (cont > 0){
-    console.log(time.sec100)
-    time.sec100 += 1
-    cont -= 1
-    if (time.sec100 > 99){
-       time.seconds += 1
-       time.sec100 -= 100 
-    }
-    if (time.seconds > 59){
-        time.minutes += 1
-        time.seconds -= 60
-    }
-    if (time.minutes > 59){
-        time.hour += 1
-        time.minutes -= 60
-    }
+
+  let aux = sec100
+
+  if ( aux >= (10 * 60 * 60)){
+    time.hour = Math.floor(aux / (10 * 60 * 60))
+    aux = aux % (10 * 60 * 60)
+  }
+  if ( aux >= (10 * 60)){
+    time.minutes = Math.floor(aux / (10 * 60))
+    aux = aux % (10 * 60 )
+  }   
+  if (aux >= 10){
+    time.seconds = Math.floor(aux / 10 )
+    aux = aux % 10
   }
 
   return time
