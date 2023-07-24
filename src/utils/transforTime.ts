@@ -5,7 +5,6 @@ type time = {
 }
 
 const minutesTo100Seconds = (min : number) : number =>{
-    console.log("total a 100secs = ", min*60*10)
     return min * 60 * 10
 }
 const sec100ToEverything= (sec100 : number) : time=>{

@@ -1,16 +1,15 @@
 <script lang="ts">
-  import {
-    minutesTo100Seconds,
-    sec100ToEverything,
-  } from "../utils/transforTime";
+  import {minutesTo100Seconds , sec100ToEverything,} from "../utils/transforTime";
+  import {time, initialTime} from '../utils/timer-store.js'
 
-  export let initialTime: number = 20;
-  let running: boolean = false;
-
+  
   //number lets asume number is in minutes
-  let time = minutesTo100Seconds(initialTime);
-
-  $: timeToShow = sec100ToEverything(time);
+  $: time.set(minutesTo100Seconds($initialTime));
+  
+  $: timeToShow = sec100ToEverything($time);
+  
+  let running: boolean = false;
+  const completedSoundEffect = new Audio('/public/completed-sound-effect.wav')
 
   const startTimer = () => {
     running = true;
@@ -22,15 +21,17 @@
 
   const runTime = () => {
     let interval = setInterval(() => {
-      if (running == false || time <= 1) {
+      if (running == false || $time <= 1) {
         clearInterval(interval);
+        stopTimer()
       }
-      time -= 1;
+      $time <= 10 ? completedSoundEffect.play() : null
+      time.update(time => time - 1) 
     }, 100);
   };
 
   const restartTimer = () => {
-    time = minutesTo100Seconds(initialTime);
+  time.set(minutesTo100Seconds($initialTime));
   };
 </script>
 
