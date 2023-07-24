@@ -9,7 +9,7 @@
   $: timeToShow = sec100ToEverything($time);
   
   let running: boolean = false;
-  const completedSoundEffect = new Audio('/public/completed-sound-effect.wav')
+  const completedSoundEffect = new Audio('/completed-sound-effect.wav')
 
   const startTimer = () => {
     running = true;
