@@ -4,10 +4,10 @@
     time,
     initialStudyTime,
     initialAnimeTime,
+    iterations,
     mode
   } from "../utils/timer-store.js";
   import { type timer } from "../utils/types";
-
   //number lets asume number is in minutes
   $: time.set(minutesToSeconds($initialStudyTime));
   //convert time in minutes to the corresponding time in hours, mins, seconds
@@ -34,6 +34,7 @@
         }
         else{
           mode.set('study')
+          iterations.update($iterations => $iterations + 1)
         }
         $mode == 'study'
           ? time.set(minutesToSeconds($initialStudyTime))
