@@ -5,8 +5,7 @@ type time = {
 }
 type timer = {
    running : boolean,
-   study : boolean,
-
+   skipable : boolean
 }
 
 

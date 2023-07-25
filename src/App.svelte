@@ -1,10 +1,40 @@
 <script lang="ts">
-  import Timer from './lib/Timer.svelte'
-  import {initialStudyTime, initialAnimeTime} from './utils/timer-store.js'
-
+  import Timer from "./lib/Timer.svelte";
+  import Settings from "./lib/Setting.svelte";
 </script>
 
-<input type="number" bind:value={$initialStudyTime}   />
-<input type="number" bind:value={$initialAnimeTime}   />
+<main>
+  <!-- <input type="number" bind:value={$initialStudyTime} />
+  <input type="number" bind:value={$initialAnimeTime} /> -->
+  
+ <Settings /> 
+  <Timer />
+</main>
 
-<Timer />
+<style>
+
+  main{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+    height: 100vh;
+    min-width: 250px;
+  }
+  @keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+ 
+    50% {
+        background-position: 100% 50%;
+    }
+ 
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+</style>
