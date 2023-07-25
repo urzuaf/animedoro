@@ -1,7 +1,7 @@
 <script lang="ts">
   import {
-    minutesTo100Seconds,
-    sec100ToEverything,
+    minutesToSeconds,
+    secsToEverything,
   } from "../utils/transforTime";
   import {
     time,
@@ -11,34 +11,36 @@
   import { type timer } from "../utils/types";
 
   //number lets asume number is in minutes
-  $: time.set(minutesTo100Seconds($initialStudyTime));
+  $: time.set(minutesToSeconds($initialStudyTime));
   //convert time in minutes to the corresponding time in hours, mins, seconds
-  $: timeToShow = sec100ToEverything($time);
+  $: timeToShow = secsToEverything($time);
 
   let state: timer = {
     running: false,
     study: true,
   };
   let skipable = true;
+  let interval
 
   const completedSoundEffect = new Audio("/completed-sound-effect.wav");
 
   const runTime = () => {
-    let interval = setInterval(() => {
+    interval = setInterval(() => {
       if (state.running == false || $time <= 1) {
         clearInterval(interval);
         stopTimer();
       }
-      if ($time <= 10) {
+      if ($time <= 1) {
         completedSoundEffect.play();
         state.study = !state.study;
         state.study
-          ? time.set(minutesTo100Seconds($initialStudyTime))
-          : time.set(minutesTo100Seconds($initialAnimeTime));
+          ? time.set(minutesToSeconds($initialStudyTime))
+          : time.set(minutesToSeconds($initialAnimeTime));
+        startTimer()
       }
-      time.update((time) => time - 1);
-      document.title = $time.toString()
-    }, 100);
+      if (state.running) time.update((time) => time - 1); 
+      
+    }, 1000);
   };
 
   // Timer functions
@@ -51,11 +53,11 @@
   };
   const restartTimer = () => {
     state.study
-      ? time.set(minutesTo100Seconds($initialStudyTime))
-      : time.set(minutesTo100Seconds($initialAnimeTime));
+      ? time.set(minutesToSeconds($initialStudyTime))
+      : time.set(minutesToSeconds($initialAnimeTime))
   };
   const skip = () => {
-    time.set(11);
+    time.set(2);
     skipable = false;
     setTimeout(() => {
       skipable = true;
