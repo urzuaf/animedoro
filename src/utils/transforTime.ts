@@ -1,8 +1,4 @@
-type time = {
-    hour : number,
-    minutes: number,
-    seconds: number,
-}
+import { type time } from "./types"
 
 const minutesTo100Seconds = (min : number) : number =>{
     return min * 60 * 10

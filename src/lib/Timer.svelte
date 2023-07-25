@@ -1,51 +1,87 @@
 <script lang="ts">
-  import {minutesTo100Seconds , sec100ToEverything,} from "../utils/transforTime";
-  import {time, initialTime} from '../utils/timer-store.js'
+  import {
+    minutesTo100Seconds,
+    sec100ToEverything,
+  } from "../utils/transforTime";
+  import {
+    time,
+    initialStudyTime,
+    initialAnimeTime,
+  } from "../utils/timer-store.js";
+  import { type timer } from "../utils/types";
 
-  
   //number lets asume number is in minutes
-  $: time.set(minutesTo100Seconds($initialTime));
-  
+  $: time.set(minutesTo100Seconds($initialStudyTime));
+  //convert time in minutes to the corresponding time in hours, mins, seconds
   $: timeToShow = sec100ToEverything($time);
-  
-  let running: boolean = false;
-  const completedSoundEffect = new Audio('/completed-sound-effect.wav')
 
-  const startTimer = () => {
-    running = true;
-    runTime();
+  let state: timer = {
+    running: false,
+    study: true,
   };
-  const stopTimer = () => {
-    running = false;
-  };
+  let skipable = true;
+
+  const completedSoundEffect = new Audio("/completed-sound-effect.wav");
 
   const runTime = () => {
     let interval = setInterval(() => {
-      if (running == false || $time <= 1) {
+      if (state.running == false || $time <= 1) {
         clearInterval(interval);
-        stopTimer()
+        stopTimer();
       }
-      $time <= 10 ? completedSoundEffect.play() : null
-      time.update(time => time - 1) 
+      if ($time <= 10) {
+        completedSoundEffect.play();
+        state.study = !state.study;
+        state.study
+          ? time.set(minutesTo100Seconds($initialStudyTime))
+          : time.set(minutesTo100Seconds($initialAnimeTime));
+      }
+      time.update((time) => time - 1);
+      document.title = $time.toString()
     }, 100);
   };
 
+  // Timer functions
+  const startTimer = () => {
+    state.running = true;
+     runTime();
+  };
+  const stopTimer = () => {
+    state.running = false;
+  };
   const restartTimer = () => {
-  time.set(minutesTo100Seconds($initialTime));
+    state.study
+      ? time.set(minutesTo100Seconds($initialStudyTime))
+      : time.set(minutesTo100Seconds($initialAnimeTime));
+  };
+  const skip = () => {
+    time.set(11);
+    skipable = false;
+    setTimeout(() => {
+      skipable = true;
+    }, 7000);
   };
 </script>
 
 <h2>
-  {timeToShow.hour >= 10 ? timeToShow.hour : "0"+timeToShow.hour }
+  {timeToShow.hour >= 10 ? timeToShow.hour : "0" + timeToShow.hour}
   :
-  {timeToShow.minutes>= 10 ? timeToShow.minutes: "0"+timeToShow.minutes}
+  {timeToShow.minutes >= 10 ? timeToShow.minutes : "0" + timeToShow.minutes}
   :
-  {timeToShow.seconds>= 10 ? timeToShow.seconds: "0"+timeToShow.seconds}
+  {timeToShow.seconds >= 10 ? timeToShow.seconds : "0" + timeToShow.seconds}
 </h2>
-{#if running}
+{#if state.running}
   <button on:click={stopTimer}>stop</button>
   <button on:click={restartTimer}>restart</button>
+  {#if skipable}
+  <button on:click={skip}>skip</button>
+  {/if}
 {:else}
   <button on:click={startTimer}>run</button>
   <button on:click={restartTimer}>restart</button>
+   {#if skipable}   
+  <button on:click={skip}>skip</button>
+    {/if}
 {/if}
+
+<h2>{state.study ? "study" : "anime"}</h2>
