@@ -122,9 +122,11 @@
     padding-top: 1rem;
     font-weight: 600;
   }
-  input{
+  input[type="range"]{
     width: 80%;
+    accent-color: rgb(8, 125, 164);
   }
+
   .hidden{
     display: none;
   }
