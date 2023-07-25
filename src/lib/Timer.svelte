@@ -19,7 +19,8 @@
   };
   let interval;
 
-  const completedSoundEffect = new Audio("/completed-sound-effect.wav");
+  const completedSoundEffect = new Audio("/completed-sound-effect.mp3");
+  
 
   const runTime = () => {
     interval = setInterval(() => {
