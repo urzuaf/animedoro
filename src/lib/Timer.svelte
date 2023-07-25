@@ -8,6 +8,7 @@
     mode
   } from "../utils/timer-store.js";
   import { type timer } from "../utils/types";
+  import sound from '../../public/completed-sound-effect.mp3'
   //number lets asume number is in minutes
   $: time.set(minutesToSeconds($initialStudyTime));
   //convert time in minutes to the corresponding time in hours, mins, seconds
@@ -19,8 +20,8 @@
   };
   let interval;
 
-  const completedSoundEffect = new Audio("/completed-sound-effect.mp3");
-  
+  const completedSoundEffect = new Audio(sound);
+
 
   const runTime = () => {
     interval = setInterval(() => {
