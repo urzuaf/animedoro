@@ -87,6 +87,7 @@
     text-align: center;
     color: #fafaea;
     opacity: 0.5;
+    transition: 0.2s ease;
   }
   .settings {
     position: absolute;
