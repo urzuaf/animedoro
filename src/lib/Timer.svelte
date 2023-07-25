@@ -92,7 +92,7 @@
 
 <style>
   .timer {
-    margin: auto ;
+    margin: 0 auto;
     background-color: red;
     width: 90%;
     height: 60%;

@@ -22,6 +22,7 @@
     animation: gradient 15s ease infinite;
     height: 100vh;
     min-width: 250px;
+    position: relative;
   }
   @keyframes gradient {
     0% {

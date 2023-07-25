@@ -2,5 +2,8 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Lisu Bosa', serif;
+    font-family: 'Lisu Bosa', serif; 
+}
+body{
+    overflow-x: hidden;
 }
