@@ -36,22 +36,20 @@
     <div class={ open == 'open' ? "settingscontainer" : 'hidden'} >
         <div class="studytime">
             <h3>Study time:</h3>
-            <input bind:value={$initialStudyTime} type="range" min="10" max="100" />
+            <input bind:value={$initialStudyTime} type="range" min="10" max="100" class="studytime" />
             <span>{$initialStudyTime} minutes</span>
         </div>
         <div class="breaktime">
             <h3>Break time:</h3>
-            <input bind:value={$initialAnimeTime} type="range" min="5" max="60" />
+            <input bind:value={$initialAnimeTime} type="range" min="5" max="60" class="animetime" />
             <span>{$initialAnimeTime} minutes</span>
         </div>
         <div class="savetime">
           <button on:click={saveTimes} class="savebtn">Save current times</button>
-          <span>The next time you open the page the default times will be the ones that were saved</span>
         </div>
-        <div>
-<!-- bind:checked={$autorun} -->
+        <div class="autorun">
           <input name="setautorun" bind:checked={$autorun} on:change={saveAutorun} type="checkbox" />
-          <label for = "setautorun">autostart break time when study time is over and vice versa </label>
+          <label for = "setautorun">Autostart next timer</label>
         </div>
         <span class="iterations">
           Completed animedoros: {$iterations}
@@ -129,6 +127,7 @@
     color: #fafaea;
     font-size: calc(0.5rem + 1vw);
     gap: 1rem;
+    margin-top: 10vh;
   }
   .savetime{
     display: flex;
@@ -137,18 +136,31 @@
     gap: calc(.5rem + 1vh);
   }
   .savebtn{
-    padding:.5rem;
+    padding:.4rem;
+    width: 80%;
+    background-color: rgba(0, 0, 0, 0.9);
+    border-radius: 15px;
+    color: white;
+    transition: .2s ease;
+    font-size: 1rem;
+  }
+  .savebtn:hover{
+    transform: scale(0.99);
+    transition: .2s ease;
   }
   label{
     font-size: 1.2rem;
   }
   .studytime, .breaktime, .iterations{
-    width: 100%;
+    width: 80%;
     display: flex;
     gap: calc(0.5vw - 0.2rem);
     flex-direction: column;
     font-size: 1.4rem;
-    margin: 0 auto;
+  
+    border-top: 1px solid gray;
+    border-bottom: 1px solid gray;
+    padding: .5rem;
   }
   .iterations{
     padding-top: 1rem;
@@ -156,9 +168,13 @@
   }
   input[type="range"]{
     width: 80%;
+  }
+  .studytime{
     accent-color: rgb(8, 125, 164);
   }
-
+  .animetime{
+    accent-color:orange; 
+  }
   .hidden{
     display: none;
   }
@@ -171,6 +187,22 @@
     .settings{
         width: 100%;
         border-radius: 0;
+    }
+  }
+  @media (max-height : 700px){
+    .settingscontainer{
+        max-width: 80%;
+    }
+  }
+   @media (max-height : 460px){
+    .settings{
+        max-width: 80%;
+        font-size: 0.5rem;
+        padding: 0;
+        padding-top: 12vh;
+    }
+    .studytime, .breaktime, .iterations{
+      font-size: .8rem;
     }
   }
   .menuIn{
