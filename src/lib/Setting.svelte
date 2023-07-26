@@ -49,6 +49,7 @@
           <span>The next time you open the page the default times will be the ones that were saved</span>
         </div>
         <div>
+<!-- bind:checked={$autorun} -->
           <input name="setautorun" bind:checked={$autorun} on:change={saveAutorun} type="checkbox" />
           <label for = "setautorun">autostart break time when study time is over and vice versa </label>
         </div>
