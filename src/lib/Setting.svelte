@@ -7,7 +7,7 @@
     autorun
   } from "../utils/timer-store";
   let open = 'close';
-
+  let savedTimes = false
   const toggleSettingsVisibility = () => {
     //when the settings are closed we give it a timeout to run the animation and the we stop desplaying it
     if (open == 'open'){
@@ -23,6 +23,10 @@
   const saveTimes = () =>{
     localStorage.setItem('studytime', $initialStudyTime.toString())
     localStorage.setItem('animetime', $initialAnimeTime.toString())
+    savedTimes = true
+    setTimeout(()=>{
+      savedTimes = false
+    }, 2000)
   }
   const saveAutorun = () =>{
     localStorage.setItem('autorun', $autorun.toString())
@@ -45,7 +49,7 @@
             <span>{$initialAnimeTime} minutes</span>
         </div>
         <div class="savetime">
-          <button on:click={saveTimes} class="savebtn">Save current times</button>
+          <button on:click={saveTimes} disabled={savedTimes} class="savebtn">{savedTimes ? 'Times saved !' : 'Save current times'}</button>
         </div>
         <div class="autorun">
           <input name="setautorun" bind:checked={$autorun} on:change={saveAutorun} type="checkbox" />
@@ -178,6 +182,7 @@
   .hidden{
     display: none;
   }
+  
   @media (max-width : 650px){
     .settings{
         width: 80%;
