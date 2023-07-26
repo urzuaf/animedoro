@@ -4,6 +4,7 @@
     initialAnimeTime,
     mode,
     iterations,
+    autorun
   } from "../utils/timer-store";
   let open = 'close';
 
@@ -18,7 +19,16 @@
     else{
         open = 'open';
     }
-  };
+  }
+  const saveTimes = () =>{
+    localStorage.setItem('studytime', $initialStudyTime.toString())
+    localStorage.setItem('animetime', $initialAnimeTime.toString())
+  }
+  const saveAutorun = () =>{
+    localStorage.setItem('autorun', $autorun.toString())
+  }
+
+  
 </script>
 {#if open != 'close' }
   <section class= {open == 'open' ? ("settings menuIn" )
@@ -33,6 +43,14 @@
             <h3>Break time:</h3>
             <input bind:value={$initialAnimeTime} type="range" min="5" max="60" />
             <span>{$initialAnimeTime} minutes</span>
+        </div>
+        <div class="savetime">
+          <button on:click={saveTimes} class="savebtn">Save current times</button>
+          <span>The next time you open the page the default times will be the ones that were saved</span>
+        </div>
+        <div>
+          <input name="setautorun" bind:checked={$autorun} on:change={saveAutorun} type="checkbox" />
+          <label for = "setautorun">autostart break time when study time is over and vice versa </label>
         </div>
         <span class="iterations">
           Completed animedoros: {$iterations}
@@ -110,6 +128,18 @@
     color: #fafaea;
     font-size: calc(0.5rem + 1vw);
     gap: 1rem;
+  }
+  .savetime{
+    display: flex;
+    flex-direction: column;
+    font-size: 1.2rem;
+    gap: calc(.5rem + 1vh);
+  }
+  .savebtn{
+    padding:.5rem;
+  }
+  label{
+    font-size: 1.2rem;
   }
   .studytime, .breaktime, .iterations{
     width: 100%;

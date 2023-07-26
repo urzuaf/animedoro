@@ -5,10 +5,22 @@
     initialStudyTime,
     initialAnimeTime,
     iterations,
-    mode
+    mode,
+    autorun
   } from "../utils/timer-store.js";
   import { type timer } from "../utils/types";
   import sound from '../../public/completed-sound-effect.mp3'
+
+  //check if there are some predefined values on localstorage
+  if (localStorage.getItem('animeTime') != null  ||localStorage.getItem('animeTime') != undefined ){
+    initialAnimeTime.set(parseInt(localStorage.getItem('animeTime')))
+  }
+  if (localStorage.getItem('studyTime') != null  ||localStorage.getItem('studyTime') != undefined ){
+    initialStudyTime.set(parseInt(localStorage.getItem('studyTime')))
+  } 
+  if (localStorage.getItem('autorun') != null  ||localStorage.getItem('autorun') != undefined ){
+    autorun.set(localStorage.getItem('animeTime') === 'true')
+  }
   //number lets asume number is in minutes
   $: time.set(minutesToSeconds($initialStudyTime));
   //convert time in minutes to the corresponding time in hours, mins, seconds
@@ -41,7 +53,7 @@
         $mode == 'study'
           ? time.set(minutesToSeconds($initialStudyTime))
           : time.set(minutesToSeconds($initialAnimeTime));
-        startTimer();
+        $autorun ? startTimer() : null
       }
       if (state.running) time.update((time) => time - 1);
     }, 1000);
