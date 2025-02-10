@@ -6,10 +6,10 @@
     initialAnimeTime,
     iterations,
     mode,
-    autorun
+    autorun,
   } from "../utils/timer-store.js";
   import { type timer } from "../utils/types";
-  import sound from '../../public/completed-sound-effect.mp3'
+  import sound from "../../public/completed-sound-effect.mp3";
 
   // lets asume number is in minutes
   $: time.set(minutesToSeconds($initialStudyTime));
@@ -24,7 +24,6 @@
 
   const completedSoundEffect = new Audio(sound);
 
-
   const runTime = () => {
     interval = setInterval(() => {
       if (state.running == false || $time <= 1) {
@@ -33,17 +32,16 @@
       }
       if ($time <= 1) {
         completedSoundEffect.play();
-        if ($mode == 'study'){
-          mode.set('break')  
+        if ($mode == "study") {
+          mode.set("break");
+        } else {
+          mode.set("study");
+          iterations.update(($iterations) => $iterations + 1);
         }
-        else{
-          mode.set('study')
-          iterations.update($iterations => $iterations + 1)
-        }
-        $mode == 'study'
+        $mode == "study"
           ? time.set(minutesToSeconds($initialStudyTime))
           : time.set(minutesToSeconds($initialAnimeTime));
-        $autorun ? startTimer() : null
+        $autorun ? startTimer() : null;
       }
       if (state.running) time.update((time) => time - 1);
     }, 1000);
@@ -58,7 +56,7 @@
     state.running = false;
   };
   const restartTimer = () => {
-   $mode == 'study' 
+    $mode == "study"
       ? time.set(minutesToSeconds($initialStudyTime))
       : time.set(minutesToSeconds($initialAnimeTime));
   };
@@ -81,46 +79,53 @@
   </h2>
   <div class="buttons">
     {#if state.running}
-    <button class="btn" on:click={stopTimer}><i class="fa fa-stop-circle-o" aria-hidden="true"></i>
-</button>
+      <button class="btn" on:click={stopTimer}
+        ><i class="fa fa-stop-circle-o" aria-hidden="true"></i>
+      </button>
     {:else}
-    <button class="btn" on:click={startTimer}><i class="fa fa-play-circle-o" aria-hidden="true"></i>
-</button>
+      <button class="btn" on:click={startTimer}
+        ><i class="fa fa-play-circle-o" aria-hidden="true"></i>
+      </button>
     {/if}
-    <button class="btn" on:click={restartTimer}><i class="fa fa-refresh" aria-hidden="true"></i>
-</button>
-    <button class="btn" on:click={skip} disabled={!state.skipable}><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></button>
+    <button class="btn" on:click={restartTimer}
+      ><i class="fa fa-refresh" aria-hidden="true"></i>
+    </button>
+    <button class="btn" on:click={skip} disabled={!state.skipable}
+      ><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></button
+    >
   </div>
 </section>
-
 
 <style>
   .timer {
     margin: 0 auto;
-    background-color: red;
     width: 90%;
     height: 60%;
     display: flex;
     flex-direction: column;
-    flex-wrap: wrap;
     align-items: center;
     justify-content: center;
     gap: 2rem;
     padding: 0.4rem;
   }
-  .title{
-    font-size: calc(2rem + 8vw);
+  .title {
+    font-size: calc(1rem + 8vw);
     color: #fafaea;
+    font-family: "Pacifico", serif;
   }
-  .glass{
-    background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0));
+  .glass {
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.1),
+      rgba(255, 255, 255, 0)
+    );
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-radius: 1rem;
-    border: 1px solid  rgba(255,255,255,0.18);
-    box-shadow: 0 8px 32px 0  rgba(0,0,0,0.37);
-  }    
-  .buttons{
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  }
+  .buttons {
     max-width: 100%;
     min-width: 40%;
     display: flex;
@@ -128,7 +133,7 @@
     align-items: center;
     gap: 3rem;
   }
-  .btn{
+  .btn {
     background-color: transparent;
     border: none;
     font-size: calc(2rem + 3vw);
@@ -136,41 +141,12 @@
     transition: 0.2s ease;
     color: #fafaea;
   }
-  .btn:hover{
+  .btn:hover {
     transition: 0.2s ease;
     transform: scale(1.05);
   }
-  .btn:disabled{
+  .btn:disabled {
     opacity: 0.6;
     pointer-events: none;
   }
-  
-
 </style>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

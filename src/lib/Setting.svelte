@@ -39,20 +39,20 @@
   : (open == 'close' ? "hidden" : 'settings menuOut')} >
     <div class={ open == 'open' ? "settingscontainer" : 'hidden'} >
         <div class="studytime">
-            <h3>Study time:</h3>
-            <input bind:value={$initialStudyTime} type="range" min="10" max="100" class="studytime" />
+            <h3>Study time</h3>
+            <input bind:value={$initialStudyTime} type="range" min="10" max="120" class="studytime" />
             <span>{$initialStudyTime} minutes</span>
         </div>
         <div class="breaktime">
-            <h3>Break time:</h3>
+            <h3>Break time</h3>
             <input bind:value={$initialAnimeTime} type="range" min="5" max="60" class="animetime" />
             <span>{$initialAnimeTime} minutes</span>
         </div>
         <div class="savetime">
-          <button on:click={saveTimes} disabled={savedTimes} class="savebtn">{savedTimes ? 'Times saved !' : 'Save current times'}</button>
+          <button on:click={saveTimes} disabled={savedTimes} class="savebtn">{savedTimes ? 'Times saved !' : 'Save configuration'}</button>
         </div>
         <div class="autorun">
-          <input name="setautorun" bind:checked={$autorun} on:change={saveAutorun} type="checkbox" />
+          <input class="cbox" name="setautorun" bind:checked={$autorun} on:change={saveAutorun} type="checkbox" />
           <label for = "setautorun">Autostart next timer</label>
         </div>
         <span class="iterations">
@@ -74,7 +74,14 @@
 </div>
 
 <style>
+  .cbox{
+    accent-color: #716C9F;
+  }
+  .autorun{
+    margin-top: 1rem;
+  }
   .menu {
+    top: 8vh;
     color: #fafaea;
     border: none;
     background-color: transparent;
@@ -83,12 +90,15 @@
     opacity: 0.6;
     z-index: 100;
     transition: 0.2s ease;
+    cursor: pointer;
+    position: absolute;
   }
   .menu:hover {
     transition: 0.2s ease;
     transform: scale(1.05);
   }
   .modecontainer {
+    position: relative;
     padding: 1rem;
     display: flex;
     justify-content: center;
@@ -102,7 +112,6 @@
   .mode {
     flex: 55%;
     font-weight: 800;
-    font-family: "Lisu Bosa", serif;
     font-size: calc(2rem + 5vw);
     padding: 1rem;
     text-align: center;
@@ -110,74 +119,78 @@
     opacity: 0.5;
     transition: 0.2s ease;
   }
-  .settings {
+  .settings{
     position: absolute;
     z-index: 3;
     width: 50%;
     height: 100%;
     right: 0;
     top: 0;
-    padding: 1rem;
-    border-radius: 15px 0 0 15px;
-    background-color: rgba(0,0,0,0.95);
-    font-family: 'Poppins', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: .5rem;
+    border-radius:8px 0 0 8px;
+    background-color: #434343;
+    /* add a shadow */
+    -webkit-box-shadow: -9px 6px 36px -6px rgba(84,84,84,1);
+-moz-box-shadow: -9px 6px 36px -6px rgba(84,84,84,1);
+box-shadow: -9px 6px 36px -6px rgba(84,84,84,1);
+
   } 
   .settingscontainer{
-    height: 60%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    margin:0 auto;
     padding: .3em;
     color: #fafaea;
     font-size: calc(0.5rem + 1vw);
-    gap: 1rem;
-    margin-top: 10vh;
-  }
-  .savetime{
+    width: 100%;
     display: flex;
     flex-direction: column;
-    font-size: 1.2rem;
-    gap: calc(.5rem + 1vh);
+    gap: .4rem;
   }
+
+  .iterations{
+    font-size : 1.2rem;
+  }
+  
   .savebtn{
-    padding:.4rem;
-    width: 80%;
-    background-color: rgba(0, 0, 0, 0.9);
-    border-radius: 15px;
+    padding:.4rem 1rem;
+    width: fit-content;
+    border-radius: 8px;
     color: white;
     transition: .2s ease;
+    cursor: pointer;
     font-size: 1rem;
+    background-color: #716C9F;
+    outline: none;
+    border: none;
   }
   .savebtn:hover{
-    transform: scale(0.99);
     transition: .2s ease;
+    background-color: #7e78b1;
   }
   label{
     font-size: 1.2rem;
   }
-  .studytime, .breaktime, .iterations{
-    width: 80%;
+  .studytime, .breaktime{
+    width: 90%;
     display: flex;
-    gap: calc(0.5vw - 0.2rem);
+    gap: .2rem;
     flex-direction: column;
-    font-size: 1.4rem;
-  
-    border-top: 1px solid gray;
-    border-bottom: 1px solid gray;
+    font-size: 1.2rem;
     padding: .5rem;
   }
   .iterations{
     padding-top: 1rem;
-    font-weight: 600;
   }
   input[type="range"]{
     width: 80%;
   }
   .studytime{
-    accent-color: rgb(8, 125, 164);
+    accent-color: #B8375E;
   }
   .animetime{
-    accent-color:orange; 
+    accent-color:#737BB2; 
   }
   .hidden{
     display: none;
@@ -204,7 +217,6 @@
         max-width: 80%;
         font-size: 0.5rem;
         padding: 0;
-        padding-top: 12vh;
     }
     .studytime, .breaktime, .iterations{
       font-size: .8rem;
