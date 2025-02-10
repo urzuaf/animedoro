@@ -1,4 +1,4 @@
-#!/user/bin/env sh
+#!/bin/bash
 
 #abort on errors
 
@@ -13,6 +13,6 @@ git checkout -b main
 git add -A
 git commit -m "deploy"
 
-git push -f git@github.com:Notand105/animedoro.git main:gh-pages
+git push -f git@github.com:urzuaf/animedoro.git main:gh-pages
 
 cd -
